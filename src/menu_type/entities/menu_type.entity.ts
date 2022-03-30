@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Menu } from 'src/menu/entities/menu.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'menu_type' })
 export class MenuType {
@@ -20,4 +21,7 @@ export class MenuType {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   update_at: string;
+
+  @OneToMany(() => Menu, (menu) => menu.menuType)
+  menus: Menu[];
 }

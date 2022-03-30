@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Order } from 'src/orders/entities/order.entity';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'payment' })
 export class Payment {
@@ -29,4 +30,8 @@ export class Payment {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   update_at: string;
+
+  @OneToOne(() => Order, order => order.payment)
+  @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
+  order: Order;
 }

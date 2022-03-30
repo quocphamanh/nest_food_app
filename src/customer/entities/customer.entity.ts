@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Order } from 'src/orders/entities/order.entity';
+import { Rating } from 'src/rating/entities/rating.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity({ name: 'customer' })
 export class Customer {
@@ -45,4 +47,10 @@ export class Customer {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   update_at: string;
+
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order[];
+
+  @OneToMany(() => Rating, rating => rating.customer)
+  ratings: Rating[];
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'site_info' })
 export class SiteInfo {
@@ -29,4 +30,7 @@ export class SiteInfo {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   update_at: string;
+
+  @OneToOne(() => User, (user) => user.siteInfo, { onDelete: 'CASCADE' })
+  user: User;
 }

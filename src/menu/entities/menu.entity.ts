@@ -1,4 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { MenuType } from 'src/menu_type/entities/menu_type.entity';
+import { OrderDetail } from 'src/order_details/entities/order_detail.entity';
+import { Rating } from 'src/rating/entities/rating.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'menu' })
 export class Menu {
@@ -32,4 +42,16 @@ export class Menu {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   update_at: string;
+
+  @ManyToOne(() => MenuType, (menuType) => menuType.menus, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'type_id', referencedColumnName: 'id' })
+  menuType: MenuType;
+
+  @OneToMany(() => Rating, (rating) => rating.menu)
+  ratings: Rating[];
+
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.menu)
+  menuToOrderDetails: OrderDetail[];
 }

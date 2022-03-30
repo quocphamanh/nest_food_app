@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { SiteInfo } from 'src/site_info/entities/site_info.entity';
+import {
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
 
 @Entity({ name: 'user' })
 export class User {
@@ -32,4 +39,7 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   update_at: string;
+
+  @OneToOne(() => SiteInfo, (siteInfo) => siteInfo.user)
+  siteInfo: SiteInfo;
 }
