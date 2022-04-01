@@ -27,6 +27,7 @@ export class UserController {
     return this.userService.create(body);
   }
 
+  @UseGuards(JwtOAuthGuard)
   @Get('/list')
   findAll() {
     return this.userService.findAll();
@@ -38,9 +39,10 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
+  @UseGuards(JwtOAuthGuard)
   @Patch('update/:id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @UseGuards(JwtOAuthGuard)

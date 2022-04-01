@@ -18,12 +18,22 @@ export class UserService {
     };
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    const users: User[] = await this.userRepository.find();
+    users.map((user) => {
+      delete user.password;
+      delete user.username;
+      return {
+        ...user,
+      };
+    });
+    return users;
   }
 
   async findOne(id: number) {
-    const user: User = await this.userRepository.findOneOrFail(id);
+    const user: User = await this.userRepository.findOneOrFail(id, {
+      relations: ['siteInfo'],
+    });
     delete user.password;
     delete user.username;
     return user;
@@ -31,6 +41,7 @@ export class UserService {
 
   async findOneByEmail(email_address: string) {
     const user: User = await this.userRepository.findOneOrFail({
+      relations: ['siteInfo'],
       where: {
         email_address: email_address,
       },
@@ -38,11 +49,13 @@ export class UserService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    await this.userRepository.update(id, updateUserDto);
+    return 'Cập nhật tài khoản thành công';
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    await this.userRepository.delete(id);
+    return 'Xóa tài khoản thành công';
   }
 }

@@ -40,6 +40,6 @@ export class User {
   })
   update_at: string;
 
-  @OneToOne(() => SiteInfo, (siteInfo) => siteInfo.user)
+  @OneToOne(() => SiteInfo, (siteInfo) => siteInfo.user, { eager: true })
   siteInfo: SiteInfo;
 }

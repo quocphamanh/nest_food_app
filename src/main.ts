@@ -3,14 +3,17 @@ import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { useContainer } from 'typeorm';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 dotenv.config();
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   useContainer(app, { fallback: true });
+  app.setViewEngine('hbs');
   app.useGlobalPipes(
     new ValidationPipe({
-      disableErrorMessages: true,
+      disableErrorMessages: false,
+      skipMissingProperties: true,
     }),
   );
   app.setGlobalPrefix('api/v1');
