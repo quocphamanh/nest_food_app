@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateSiteInfoDto } from './dto/create-site_info.dto';
 import { UpdateSiteInfoDto } from './dto/update-site_info.dto';
+import { SiteInfo } from './entities/site_info.entity';
 
 @Injectable()
 export class SiteInfoService {
-  create(createSiteInfoDto: CreateSiteInfoDto) {
-    return 'This action adds a new siteInfo';
+  constructor(
+    @InjectRepository(SiteInfo)
+    private siteInfoRepository: Repository<SiteInfo>,
+  ) {}
+  async create(createSiteInfoDto: CreateSiteInfoDto) {
+    const siteInfo = await this.siteInfoRepository.save(createSiteInfoDto);
+    return { message: 'Tạo thông tin cửa hàng thành công' };
   }
 
-  findAll() {
-    return `This action returns all siteInfo`;
+  async findAll() {
+    const siteInfos: SiteInfo[] = await this.siteInfoRepository.find();
+    return siteInfos;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} siteInfo`;
+    return this.siteInfoRepository.findOneOrFail(id);
   }
 
-  update(id: number, updateSiteInfoDto: UpdateSiteInfoDto) {
-    return `This action updates a #${id} siteInfo`;
+  async update(id: number, updateSiteInfoDto: UpdateSiteInfoDto) {
+    await this.siteInfoRepository.update(id, updateSiteInfoDto);
+    return 'Cập nhật thông tin cửa hàng thành công';
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} siteInfo`;
+  async remove(id: number) {
+    await this.siteInfoRepository.delete(id);
+    return 'Xóa thông tin cửa hàng thành công';
   }
 }
