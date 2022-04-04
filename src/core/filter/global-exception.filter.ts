@@ -13,6 +13,7 @@ import {
   CannotCreateEntityIdMapError,
 } from 'typeorm';
 import { GlobalResponseError } from './global-exception-response.interface';
+import { ValidationException } from './validation.exception';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -51,8 +52,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         message = (exception as CannotCreateEntityIdMapError).message;
         code = (exception as any).code;
         break;
+      case ValidationException:
+        status = HttpStatus.BAD_REQUEST;
+        message = (exception as ValidationException).validationErrors;
+        break;
       default:
-        console.log((exception as HttpException).getResponse());
         status = (exception as HttpException).getStatus();
         message = (exception as HttpException).getResponse()['message'];
     }

@@ -2,18 +2,29 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { useContainer } from 'typeorm';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { GlobalExceptionFilter } from './core/filter/global-exception.filter';
+import { ValidationException } from './core/filter/validation.exception';
 
 dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   useContainer(app, { fallback: true });
   app.setViewEngine('hbs');
+  app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
-      disableErrorMessages: false,
-      skipMissingProperties: true,
+      skipMissingProperties: false,
+      exceptionFactory: (errors: ValidationError[]) => {
+        const messages = errors.map((error) => {
+          return {
+            field: error.property,
+            message: Object.values(error.constraints).join(','),
+          };
+        });
+        return new ValidationException(messages);
+      },
     }),
   );
   app.setGlobalPrefix('api/v1');
