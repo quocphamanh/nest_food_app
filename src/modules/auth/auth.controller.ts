@@ -16,4 +16,9 @@ export class AuthController {
       ...token,
     };
   }
+
+  @Post('/send-mail')
+  async sendMail(@Body() body) {
+    await this.authService.sendMailResetPassword(body.email_address);
+  }
 }
