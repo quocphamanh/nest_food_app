@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { MailService } from '../mail/mail.service';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 
@@ -9,6 +10,7 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async validateUser(email_address: string, password: string): Promise<User> {
@@ -34,5 +36,14 @@ export class AuthService {
     return {
       token,
     };
+  }
+
+  async sendMailResetPassword(email_address: string) {
+    const user: User = await this.userService.findOneByEmail(email_address);
+    const newToken = await this.jwtService.signAsync({
+      email_address: user.email_address,
+      password: user.password,
+    });
+    await this.mailService.sendUserConfirmation(user, newToken);
   }
 }

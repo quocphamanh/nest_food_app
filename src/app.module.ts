@@ -16,6 +16,7 @@ import { OrderDetailsModule } from './modules/order_details/order_details.module
 import { PaymentModule } from './modules/payment/payment.module';
 import { RatingModule } from './modules/rating/rating.module';
 import { SiteInfoModule } from './modules/site_info/site_info.module';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SiteInfoModule } from './modules/site_info/site_info.module';
     RatingModule,
     SiteInfoModule,
     AuthModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [

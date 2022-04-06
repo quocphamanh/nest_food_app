@@ -9,6 +9,8 @@ import { UserModule } from '../user/user.module';
 import { CustomerModule } from '../customer/customer.module';
 import { UserService } from '../user/user.service';
 import { CustomerService } from '../customer/customer.service';
+import { MailModule } from '../mail/mail.module';
+import { MailService } from '../mail/mail.service';
 
 @Module({
   imports: [
@@ -19,10 +21,12 @@ import { CustomerService } from '../customer/customer.service';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     }),
+    MailModule,
   ],
   providers: [
     AuthService,
     UserService,
+    MailService,
     CustomerService,
     LocalAuthGuard,
     JwtStrategy,
