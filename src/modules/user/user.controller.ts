@@ -39,7 +39,7 @@ export class UserController {
 
   @UseGuards(JwtOAuthGuard)
   @Patch('update/:id')
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 

@@ -1,6 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UpdateUserPasswordDto } from '../user/dto/update-user-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -20,5 +21,10 @@ export class AuthController {
   @Post('/send-mail')
   async sendMail(@Body() body) {
     await this.authService.sendMailResetPassword(body.email_address);
+  }
+
+  @Post('/reset-pasword')
+  async resetPassword(@Body() updateUserPasswordDto: UpdateUserPasswordDto) {
+    await this.authService.resetPassowrd(updateUserPasswordDto);
   }
 }
