@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
+import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 
 @Injectable()
 export class UserService {
@@ -40,9 +42,15 @@ export class UserService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     await this.userRepository.update(id, updateUserDto);
     return 'Cập nhật tài khoản thành công';
+  }
+
+  async updatePassword(id: string, body: UpdateUserPasswordDto) {
+    await this.userRepository.update(id, {
+      password: await bcrypt.hash(body.password, 10),
+    });
   }
 
   async remove(id: number) {

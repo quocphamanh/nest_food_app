@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
+import { UpdateUserPasswordDto } from '../user/dto/update-user-password.dto';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 
@@ -45,5 +46,21 @@ export class AuthService {
       password: user.password,
     });
     await this.mailService.sendUserConfirmation(user, newToken);
+  }
+
+  async resetPassowrd(updateUserDto: UpdateUserPasswordDto) {
+    try {
+      const verifyUserToken = await this.jwtService.verify(
+        updateUserDto.token_refresh,
+      );
+      if (verifyUserToken) {
+        const userData = await this.userService.findOneByEmail(
+          verifyUserToken.email_address,
+        );
+        await this.userService.updatePassword(userData.id, updateUserDto);
+      }
+    } catch (error) {
+      throw new UnauthorizedException('Link đã hết hạn');
+    }
   }
 }
