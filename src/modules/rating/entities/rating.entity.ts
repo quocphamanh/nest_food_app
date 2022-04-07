@@ -1,5 +1,5 @@
-import { Menu } from 'src/modules/menu/entities/menu.entity';
-import { User } from 'src/modules/user/entities/user.entity';
+import { Menu } from '../../menu/entities/menu.entity';
+import { User } from '../../user/entities/user.entity';
 import {
   Column,
   Entity,
@@ -42,7 +42,9 @@ export class Rating {
   @JoinColumn({ name: 'menu_id', referencedColumnName: 'id' })
   menu: Menu;
 
-  @ManyToOne(() => User, (user) => user.ratings)
+  @ManyToOne(() => User, (user) => user.ratings, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 }

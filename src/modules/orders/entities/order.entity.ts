@@ -1,6 +1,6 @@
-import { OrderDetail } from 'src/modules/order_details/entities/order_detail.entity';
-import { Payment } from 'src/modules/payment/entities/payment.entity';
-import { User } from 'src/modules/user/entities/user.entity';
+import { OrderDetail } from '../../order_details/entities/order_detail.entity';
+import { Payment } from '../../payment/entities/payment.entity';
+import { User } from '../../user/entities/user.entity';
 import {
   Column,
   Entity,

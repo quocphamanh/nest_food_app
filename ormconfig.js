@@ -12,4 +12,6 @@ module.exports = {
   cli: {
     migrationsDir: 'src/db/migrations',
   },
+  seeds: ['dist/seeds/*.js'],
+  factories: ['dist/factories/*.js'],
 };

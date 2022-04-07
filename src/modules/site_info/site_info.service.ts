@@ -12,8 +12,9 @@ export class SiteInfoService {
     private siteInfoRepository: Repository<SiteInfo>,
   ) {}
   async create(createSiteInfoDto: CreateSiteInfoDto) {
-    const siteInfo = await this.siteInfoRepository.save(createSiteInfoDto);
-    return { message: 'Tạo thông tin cửa hàng thành công' };
+    const siteInfo = await this.siteInfoRepository.create(createSiteInfoDto);
+    await this.siteInfoRepository.save(siteInfo);
+    return { ...siteInfo };
   }
 
   async findAll() {
