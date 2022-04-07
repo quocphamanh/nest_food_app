@@ -1,6 +1,6 @@
-import { MenuType } from 'src/modules/menu_type/entities/menu_type.entity';
-import { OrderDetail } from 'src/modules/order_details/entities/order_detail.entity';
-import { Rating } from 'src/modules/rating/entities/rating.entity';
+import { MenuType } from '../../menu_type/entities/menu_type.entity';
+import { OrderDetail } from '../../order_details/entities/order_detail.entity';
+import { Rating } from '../../rating/entities/rating.entity';
 import {
   Column,
   Entity,

@@ -1,4 +1,4 @@
-import { Menu } from 'src/modules/menu/entities/menu.entity';
+import { Menu } from '../../menu/entities/menu.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'menu_type' })

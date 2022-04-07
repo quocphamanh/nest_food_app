@@ -14,10 +14,9 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
   async create(createUserDto: CreateUserDto) {
-    await this.userRepository.save(createUserDto);
-    return {
-      message: 'Tạo tài khoản thành công',
-    };
+    const user = await this.userRepository.create(createUserDto);
+    await this.userRepository.save(user);
+    return 'Tạo tài khoản thành công';
   }
 
   async findAll() {

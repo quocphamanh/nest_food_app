@@ -9,13 +9,13 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
-import { SiteInfo } from 'src/modules/site_info/entities/site_info.entity';
-import { Order } from 'src/modules/orders/entities/order.entity';
-import { Rating } from 'src/modules/rating/entities/rating.entity';
+import { SiteInfo } from '../../site_info/entities/site_info.entity';
+import { Order } from '../../orders/entities/order.entity';
+import { Rating } from '../../rating/entities/rating.entity';
 
 @Entity({ name: 'user' })
 export class User {
-  constructor(partial: Partial<User>) {
+  constructor(partial?: Partial<User>) {
     Object.assign(this, partial);
   }
 
