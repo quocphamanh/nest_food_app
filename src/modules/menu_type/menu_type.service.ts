@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { getTreeRepository } from 'typeorm';
 import { CreateMenuTypeDto } from './dto/create-menu_type.dto';
 import { UpdateMenuTypeDto } from './dto/update-menu_type.dto';
+import { MenuType } from './entities/menu_type.entity';
 
 @Injectable()
 export class MenuTypeService {
-  create(createMenuTypeDto: CreateMenuTypeDto) {
-    return 'This action adds a new menuType';
+  constructor(
+    @InjectRepository(MenuType)
+    private menuTypeRepository = getTreeRepository(MenuType),
+  ) {}
+  async create(createMenuTypeDto: CreateMenuTypeDto) {
+    const menuType = this.menuTypeRepository.create(createMenuTypeDto);
+    if (createMenuTypeDto.parentId) {
+      menuType.parent = await this.menuTypeRepository.findOneOrFail(
+        createMenuTypeDto.parentId,
+      );
+    }
+    await this.menuTypeRepository.save(menuType);
   }
 
-  findAll() {
-    return `This action returns all menuType`;
+  async findAll() {
+    const menuTypes: MenuType[] = await this.menuTypeRepository.findTrees();
+    return menuTypes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menuType`;
+  async findOne(id: string) {
+    const menuType = await this.menuTypeRepository.findOneOrFail(id);
+    return this.menuTypeRepository.findDescendantsTree(menuType);
   }
 
-  update(id: number, updateMenuTypeDto: UpdateMenuTypeDto) {
-    return `This action updates a #${id} menuType`;
+  async update(id: string, updateMenuTypeDto: UpdateMenuTypeDto) {
+    await this.menuTypeRepository.update(id, updateMenuTypeDto);
+    return 'Cập nhật loại thực đơn hàng thành công';
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} menuType`;
+  async remove(id: string) {
+    await this.menuTypeRepository.delete(id);
+    return 'Xóa loại thực đơn thành công';
   }
 }
