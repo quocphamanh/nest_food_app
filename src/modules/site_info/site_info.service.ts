@@ -22,16 +22,16 @@ export class SiteInfoService {
     return siteInfos;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.siteInfoRepository.findOneOrFail(id);
   }
 
-  async update(id: number, updateSiteInfoDto: UpdateSiteInfoDto) {
+  async update(id: string, updateSiteInfoDto: UpdateSiteInfoDto) {
     await this.siteInfoRepository.update(id, updateSiteInfoDto);
     return 'Cập nhật thông tin cửa hàng thành công';
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.siteInfoRepository.delete(id);
     return 'Xóa thông tin cửa hàng thành công';
   }
