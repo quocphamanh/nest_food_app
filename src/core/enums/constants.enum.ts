@@ -10,3 +10,8 @@ export enum Active {
   IS_ACTIVE = 'ACTIVE',
   IS_DISACTIVE = 'DISACTIVE',
 }
+
+export enum Unit {
+  GRAM = 'gr',
+  MLIT = 'ml',
+}
