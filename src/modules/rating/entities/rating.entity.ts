@@ -38,7 +38,7 @@ export class Rating {
   })
   update_at: string;
 
-  @ManyToOne(() => Menu, (menu) => menu.ratings)
+  @ManyToOne(() => Menu, (menu) => menu.ratings, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'menu_id', referencedColumnName: 'id' })
   menu: Menu;
 

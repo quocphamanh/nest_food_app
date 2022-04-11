@@ -18,8 +18,8 @@ export class Menu {
   @Column({ nullable: true })
   name: string;
 
-  @Column({ nullable: true, type: 'float' })
-  price: string;
+  @Column({ nullable: true, type: 'double precision' })
+  price: number;
 
   @Column({ nullable: true })
   type_id: string;
@@ -27,8 +27,8 @@ export class Menu {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ nullable: true, type: 'text' })
-  ingredients: string;
+  @Column({ nullable: true, type: 'json' })
+  ingredients: any;
 
   @Column({ nullable: true })
   status: string;
@@ -44,7 +44,7 @@ export class Menu {
   update_at: string;
 
   @ManyToOne(() => MenuType, (menuType) => menuType.menus, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'type_id', referencedColumnName: 'id' })
   menuType: MenuType;
