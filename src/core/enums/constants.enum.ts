@@ -15,3 +15,9 @@ export enum Unit {
   GRAM = 'gr',
   MLIT = 'ml',
 }
+
+export enum Scrore {
+  GOOD = 'GOOD',
+  NORMAL = 'NORMAL',
+  BAD = 'BAD',
+}
