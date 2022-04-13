@@ -7,6 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Scrore } from 'src/core/enums/constants.enum';
 
 @Entity({ name: 'rating' })
 export class Rating {
@@ -16,8 +17,8 @@ export class Rating {
   @Column({ nullable: true })
   menu_id: string;
 
-  @Column({ nullable: true })
-  scrore: string;
+  @Column({ nullable: true, type: 'enum', enum: Scrore, default: Scrore.GOOD })
+  scrore: Scrore;
 
   @Column({ nullable: true })
   remarks: string;
