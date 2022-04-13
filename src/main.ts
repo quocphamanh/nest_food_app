@@ -3,15 +3,21 @@ import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { useContainer } from 'typeorm';
 import { ValidationError, ValidationPipe } from '@nestjs/common';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { GlobalExceptionFilter } from './core/filter/global-exception.filter';
 import { ValidationException } from './core/filter/validation.exception';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 dotenv.config();
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter({ logger: true }),
+  );
   useContainer(app, { fallback: true });
-  app.setViewEngine('hbs');
+  // app.setViewEngine('hbs');
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
