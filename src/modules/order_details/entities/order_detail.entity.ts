@@ -19,14 +19,14 @@ export class OrderDetail {
   @Column({ nullable: true })
   menu_id: string;
 
-  @Column({ nullable: true })
-  amount: string;
+  @Column({ nullable: true, type: 'int' })
+  quantity: number;
 
   @Column({ nullable: true })
   no_of_serving: string;
 
-  @Column({ nullable: true })
-  tolal_amount: string;
+  @Column({ nullable: true, type: 'double precision' })
+  tolal_amount: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   create_at: string;
@@ -38,11 +38,15 @@ export class OrderDetail {
   })
   update_at: string;
 
-  @ManyToOne(() => Menu, (menu) => menu.menuToOrderDetails)
+  @ManyToOne(() => Menu, (menu) => menu.menuToOrderDetails, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'menu_id', referencedColumnName: 'id' })
   menu: Menu;
 
-  @ManyToOne(() => Order, (order) => order.orderToOrderDetails)
+  @ManyToOne(() => Order, (order) => order.orderToOrderDetails, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   order: Order;
 }

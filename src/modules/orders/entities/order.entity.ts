@@ -22,8 +22,8 @@ export class Order {
   @Column({ nullable: true, type: 'datetime' })
   order_date: string;
 
-  @Column({ nullable: true })
-  total_amount: string;
+  @Column({ nullable: true, type: 'double precision' })
+  total_amount: number;
 
   @Column({ nullable: true })
   order_status: string;

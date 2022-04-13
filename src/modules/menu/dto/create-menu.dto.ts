@@ -3,11 +3,14 @@ import {
   ArrayNotEmpty,
   IsArray,
   IsDefined,
+  IsEmpty,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { Unit } from 'src/core/enums/constants.enum';
 
 export class Ingredient {
   @IsString()
@@ -17,6 +20,10 @@ export class Ingredient {
   @IsNumber()
   @IsNotEmpty()
   weight: number;
+
+  @IsEnum(Unit)
+  @IsNotEmpty()
+  unit: Unit;
 }
 export class CreateMenuDto {
   @IsNotEmpty()
@@ -31,7 +38,7 @@ export class CreateMenuDto {
   @IsString()
   type_id: string;
 
-  @IsNotEmpty()
+  @IsEmpty()
   @IsString()
   image: string;
 

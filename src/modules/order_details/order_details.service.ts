@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateOrderDetailDto } from './dto/create-order_detail.dto';
 import { UpdateOrderDetailDto } from './dto/update-order_detail.dto';
+import { OrderDetail } from './entities/order_detail.entity';
 
 @Injectable()
 export class OrderDetailsService {
-  create(createOrderDetailDto: CreateOrderDetailDto) {
-    return 'This action adds a new orderDetail';
+  constructor(
+    @InjectRepository(OrderDetail)
+    private readonly orderDetailRepository: Repository<OrderDetail>,
+  ) {}
+  async createMany(createOrderDetailDto: CreateOrderDetailDto) {
+    const orderDetail: OrderDetail = await this.orderDetailRepository.create(
+      createOrderDetailDto,
+    );
+
+    await this.orderDetailRepository.save(orderDetail);
   }
 
   findAll() {
